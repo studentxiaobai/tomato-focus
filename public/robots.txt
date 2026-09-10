@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tomato-focus-epv.pages.dev/sitemap.xml
