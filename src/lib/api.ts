@@ -47,6 +47,20 @@ type TrackRow = {
   duration_seconds: number | null;
 };
 
+function proxiedMediaUrl(value: string | null): string {
+  if (!value) return '';
+  if (typeof window === 'undefined') return value;
+  try {
+    const parsed = new URL(value);
+    if (parsed.hostname.endsWith('.supabase.co')) {
+      return `${window.location.origin}/api/supabase${parsed.pathname}${parsed.search}`;
+    }
+  } catch {
+    return value;
+  }
+  return value;
+}
+
 function getClient() {
   if (!supabase) throw new Error('尚未配置 Supabase 连接信息。');
   return supabase;
@@ -113,7 +127,7 @@ async function signedUrlFor(bucket: 'backgrounds' | 'music', path: string): Prom
   const client = getClient();
   const { data, error } = await client.storage.from(bucket).createSignedUrl(path, 3600);
   if (error) return null;
-  return data.signedUrl;
+  return proxiedMediaUrl(data.signedUrl);
 }
 
 async function loadTasks(userId: string): Promise<Task[]> {
@@ -146,7 +160,7 @@ async function loadTracks(userId: string): Promise<MusicTrack[]> {
     .createSignedUrls(rows.map((row) => row.storage_path), 3600);
   if (signError) throw signError;
 
-  const urlByPath = new Map((signed ?? []).map((item) => [item.path, item.signedUrl]));
+  const urlByPath = new Map((signed ?? []).map((item) => [item.path, proxiedMediaUrl(item.signedUrl)]));
   return rows
     .map((row) => mapTrack(row, urlByPath.get(row.storage_path) ?? ''))
     .filter((track) => Boolean(track.signedUrl));
@@ -461,4 +475,7 @@ export async function deleteMusicTrack(userId: string, track: MusicTrack): Promi
   if (error) throw error;
   await client.storage.from('music').remove([track.storagePath]);
 }
+
+
+
 
