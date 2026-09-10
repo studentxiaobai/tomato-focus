@@ -85,6 +85,23 @@ $env:PLAYWRIGHT_USE_SYSTEM_EDGE='1'; pnpm test:e2e
 5. 部署后把正式域名补进 Supabase Auth 回调地址。
 6. `vercel.json` 已包含单页应用路由回退规则。
 
+## 直接部署
+
+GitHub 仓库地址：<https://github.com/studentxiaobai/tomato-focus>
+
+Cloudflare Pages 推荐设置：
+
+- 连接 GitHub 仓库 `studentxiaobai/tomato-focus`
+- Production branch：`main`
+- Framework preset：`Vite`
+- Root directory：留空
+- Build command：`pnpm build`
+- Build output directory：`dist`
+- 环境变量：`VITE_SUPABASE_URL`、`VITE_SUPABASE_ANON_KEY`
+
+Vercel 会读取根目录的 `vercel.json`。导入仓库后添加相同的两个环境变量，构建命令使用 `pnpm build`，输出目录使用 `dist`。
+
+部署完成后，必须把正式域名同时加入 Supabase 的 Authentication URL Configuration，否则验证邮件和找回密码会跳回本地地址。
 ## 媒体授权
 
 根目录中的 `demo-assets` 来自用户提供的原始图片和 MP3，只用于本地开发预览，不会被正式生产构建复制。公开上线前请替换为拥有公开使用权限的素材，或保持生产环境的中性渐变封面和空播放列表，由用户自行上传。
@@ -100,5 +117,6 @@ supabase/migrations/  数据库、RLS 与 Storage 迁移
 tests/e2e/            Playwright 端到端测试
 demo-assets/          仅开发环境使用的示例媒体
 ```
+
 
 
