@@ -1,5 +1,7 @@
 # 番茄闹钟
 
+在线地址：<https://tomato-focus-epv.pages.dev>
+
 一个以自定义封面为主视觉的公开番茄钟网站。用户可以使用邮箱注册登录，在右上角运行番茄计时器、在右侧维护任务，在左下角播放自己的背景音乐，并把完整完成的专注时长同步到学习统计。
 
 ## 已实现功能
@@ -101,6 +103,12 @@ Cloudflare Pages 推荐设置：
 
 Vercel 会读取根目录的 `vercel.json`。导入仓库后添加相同的两个环境变量，构建命令使用 `pnpm build`，输出目录使用 `dist`。
 
+本机后续更新 Cloudflare Pages 时，可以直接运行：
+
+```powershell
+pnpm deploy:cloudflare
+```
+
 部署完成后，必须把正式域名同时加入 Supabase 的 Authentication URL Configuration，否则验证邮件和找回密码会跳回本地地址。
 ## 媒体授权
 
@@ -117,6 +125,7 @@ supabase/migrations/  数据库、RLS 与 Storage 迁移
 tests/e2e/            Playwright 端到端测试
 demo-assets/          仅开发环境使用的示例媒体
 ```
+
 
 
 
