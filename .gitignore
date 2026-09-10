@@ -1,0 +1,17 @@
+node_modules
+dist
+.env
+.env.local
+.env.*.local
+.playwright
+coverage
+*.tsbuildinfo
+
+test-results
+
+supabase/.temp
+
+demo-assets/
+一键启动.bat
+启动网站.cmd
+start.bat
